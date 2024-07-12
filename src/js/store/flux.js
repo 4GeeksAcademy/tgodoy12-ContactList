@@ -53,22 +53,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 						  }),
 						headers: {
 							'Content-Type': 'application/json'
-						} 
-					}
+					}	
+						}
+					) 
 					.then((response) => {
 						console.log(response);
 						if(response.status === 201) {
 							return response.json();
+
 						}
 					})
 					.then((data) => {
 						if(data) {
 							setStore({ contacts: data.contacts })
+							console.log(data)
 						}
 					})
 						
 					.catch((error) => console.log(error))
-				)
+				
 
 			}
 		}
