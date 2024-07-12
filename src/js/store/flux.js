@@ -69,11 +69,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 							console.log(data)
 						}
 					})
-						
 					.catch((error) => console.log(error))
-				
-
+			},
+			deleteContact: (contactId) => {
+				fetch(`https://playground.4geeks.com/contact/agendas/tgodoy/contacts/${contactId}`, {
+					method: "DELETE"	
+				})
+				.then((response) => { 
+					const store = getStore();
+					if(response.status === 204) {
+					console.log("entro el if 204");
+					setStore({ contacts: store.contacts.filter(element => element.id !== contactId) })     
+				}
+		
+				})
+				.catch((error) => console.log(error))
 			}
+			
 		}
 	};
 };

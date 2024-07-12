@@ -11,7 +11,7 @@ export const Contacts = () => {
 	
 
 	return (
-		<div className="container mt-5">
+		<div className="container mt-5 pb-5">
 		<Navbar/>
 
 		{store.contacts.map((contact, index) => 
