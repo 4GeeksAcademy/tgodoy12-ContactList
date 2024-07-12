@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			contacts: []
+			contacts: ["esto es una prueba"]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then((response) => {
 						if(response.status === 201) {
 							return response.json()
+							
 						}
 						
 					})
@@ -35,24 +36,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then((data) => {
 						console.log(data.contacts);
-						// setStore({ contacts: data.contacts });
+						setStore({ contacts: data.contacts });
 					})
 					.catch((error) => console.log(error));
 			},
 			
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+			createContact: (name, phone, email, address) => {
+				fetch('https://playground.4geeks.com/contact/agendas/tgodoy/contacts', 
+					{
+						method: "POST",
+						body: JSON.stringify({
+							"name": name,
+							"phone": phone,
+							"email": email,
+							"address": address
+						  }),
+						headers: {
+							'Content-Type': 'application/json'
+						} 
+					}
+					.then((response) => {
+						console.log(response);
+						if(response.status === 201) {
+							return response.json();
+						}
+					})
+					.then((data) => {
+						if(data) {
+							setStore({ contacts: data.contacts })
+						}
+					})
+						
+					.catch((error) => console.log(error))
+				)
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};

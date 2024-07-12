@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
 export const Navbar = () => {
+	
+
 	return (
 		<div className="mb-3">
 			<ul className="nav nav-pills justify-content-end">

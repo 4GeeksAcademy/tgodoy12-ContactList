@@ -5,19 +5,19 @@ import { Context } from "../store/appContext";
 
 export const Contacts = () => {
 	const { store, actions } = useContext(Context);
-	const [contactList, setContactList] = useState([]);
-
 	
-	useEffect(() => {
-		actions.getContacts();
-		console.log(store.contacts[0]);
-	}, []);
+
+	console.log(store.contacts[0]);
+	
 
 	return (
 		<div className="container mt-5">
-		<Navbar/>	
-		<ContactCard />
-		<h5></h5>
+		<Navbar/>
+
+		{store.contacts.map((contact, index) => 
+			<ContactCard id={contact.id} name={contact.name} phone={contact.phone} email={contact.email} address={contact.address} key={index}/>
+		)}
+		
 		</div>
 	)	
 }
