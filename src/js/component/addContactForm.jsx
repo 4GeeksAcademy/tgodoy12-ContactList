@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AddContactForm = () => {
 
@@ -7,12 +8,17 @@ const AddContactForm = () => {
     const [phoneValue, setPhoneValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
     const [addressValue, setAddressValue] = useState("");
+    const navigate = useNavigate();
 
     const { store, actions } = useContext(Context);
 
     const submitForm = (e) => {
         console.log(nameValue, phoneValue, emailValue, addressValue);
-        actions.createContact(nameValue, phoneValue, emailValue, addressValue);
+        const response = actions.createContact(nameValue, phoneValue, emailValue, addressValue);
+        if(response) {
+            navigate("/contacts");
+        }
+        
     }
 
     return (

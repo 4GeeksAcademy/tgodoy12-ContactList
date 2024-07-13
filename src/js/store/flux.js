@@ -60,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log(response);
 						if(response.status === 201) {
 							return response.json();
+							
 
 						}
 					})
@@ -67,6 +68,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						if(data) {
 							setStore({ contacts: data.contacts })
 							console.log(data)
+							
 						}
 					})
 					.catch((error) => console.log(error))

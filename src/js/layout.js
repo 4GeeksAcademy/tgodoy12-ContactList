@@ -4,7 +4,6 @@ import ScrollToTop from "./component/scrollToTop";
 
 import { Contacts } from "./views/contacts.jsx";
 import { AddContact } from "./views/addContact.jsx";
-import { Home } from "./views/home.jsx";
 import injectContext from "./store/appContext";
 
 
