@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			contacts: ["esto es una prueba"]
+			contacts: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -86,7 +86,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 				})
 				.catch((error) => console.log(error))
+			},
+			updateContact: (contactId, name, phone, email, address) => {
+				fetch(`https://playground.4geeks.com/contact/agendas/tgodoy/contacts/${contactId}`, {
+					method: "PUT",
+					body: JSON.stringify({
+						"name": name,
+  						"phone": phone,
+  						"email": email,
+ 						"address": address
+					}),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				.then((response) => {
+					if(response.status === 200) {
+						setStore({ contacts: data.contacts });
+						console.log(data);
+					}
+				})
+				.catch((error) => console.log(error));
 			}
+
+
+			
 			
 		}
 	};
