@@ -1,15 +1,20 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import DeleteModal from "./deleteModal.jsx";
 
 
 const ContactCard = (props) => {
     const { actions } = useContext(Context);
     const nav = useNavigate();
     const { theid } = useParams();
+    const [showModal, setShowModal] = useState(false);
+
+
 
     const handleDelete = () => {
-        actions.deleteContact(props.id);
+        setShowModal(true);
+        // actions.deleteContact(props.id);
     }
 
     const handleEdit = () => {
@@ -37,10 +42,11 @@ const ContactCard = (props) => {
                         {/* edit */}
                         <div className="me-2"><button type="button" className="btn btn-outline-dark" onClick={handleEdit}><i className="fas fa-pen"></i></button></div>
                         {/* delete */}
-                        <div className="ms-2"><button type="button" id={props.id} onClick={handleDelete} className="btn btn-outline-dark"><i className="fas fa-trash-alt"></i></button></div>
+                        <div className="ms-2"><button type="button" id={`deleteButton-${props.id}`} onClick={handleDelete} className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target={`#deleteModal-${props.id}`}><i className="fas fa-trash-alt"></i></button></div>
                     </div>
                 </div>
             </div>
+            <DeleteModal id={props.id} name={props.name} show={showModal} onClose={() => setShowModal(false)}/>
         </div>
     )
 }
