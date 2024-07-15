@@ -110,7 +110,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if(data) {
 
 						const updatedArray = store.contacts.map((item) => {
-							// console.log(item.id +" " + contactId)
 							if(item.id == contactId) {
 								return data;
 							}

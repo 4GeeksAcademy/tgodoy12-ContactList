@@ -12,15 +12,9 @@ const ContactForm = (props) => {
 
     const { store, actions } = useContext(Context);
 
-    // const submitForm = (e) => {
-    //     console.log(nameValue, phoneValue, emailValue, addressValue);
-    //     actions.createContact(nameValue, phoneValue, emailValue, addressValue);
-        
-    // }
-
-    //test
     const { theid } = useParams();
 
+    //si existe theid, retorna el contacto con el id especificado
     useEffect(() => {
         if (theid) {
             actions.getContact(theid);
@@ -32,6 +26,7 @@ const ContactForm = (props) => {
         }
     }, [theid]);
 
+    //guarda los valores nuevos ingresados en los inputs del contacto seleccionado
     useEffect(() => {
         if (store.selectedContact && theid) {
             setNameValue(store.selectedContact.name);
@@ -41,6 +36,7 @@ const ContactForm = (props) => {
         }
     }, [store.selectedContact]);
 
+    //submit form para update en caso de que theid exista, sino createContact
     const submitForm = (e) => {
         e.preventDefault();
         if (theid) {
