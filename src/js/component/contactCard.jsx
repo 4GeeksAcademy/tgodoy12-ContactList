@@ -1,13 +1,22 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 
 const ContactCard = (props) => {
     const { actions } = useContext(Context);
+    const nav = useNavigate();
+    const { theid } = useParams();
 
     const handleDelete = () => {
         actions.deleteContact(props.id);
     }
+
+    const handleEdit = () => {
+        nav(`/update/${props.id}`);
+    }
+
+
     return (
             
         <div className="card mb-3">
@@ -26,7 +35,7 @@ const ContactCard = (props) => {
                 <div className="col-md-2">
                     <div className="mt-3 d-flex p-3 justify-content-center">
                         {/* edit */}
-                        <div className="me-2"><button type="button" className="btn btn-outline-dark"><i className="fas fa-pen"></i></button></div>
+                        <div className="me-2"><button type="button" className="btn btn-outline-dark" onClick={handleEdit}><i className="fas fa-pen"></i></button></div>
                         {/* delete */}
                         <div className="ms-2"><button type="button" id={props.id} onClick={handleDelete} className="btn btn-outline-dark"><i className="fas fa-trash-alt"></i></button></div>
                     </div>

@@ -1,29 +1,63 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddContactForm = () => {
+const ContactForm = (props) => {
 
     const [nameValue, setNameValue] = useState("");
     const [phoneValue, setPhoneValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
     const [addressValue, setAddressValue] = useState("");
-    const navigate = useNavigate();
+    const nav = useNavigate();
 
     const { store, actions } = useContext(Context);
 
-    const submitForm = (e) => {
-        console.log(nameValue, phoneValue, emailValue, addressValue);
-        const response = actions.createContact(nameValue, phoneValue, emailValue, addressValue);
-        if(response) {
-            navigate("/contacts");
+    // const submitForm = (e) => {
+    //     console.log(nameValue, phoneValue, emailValue, addressValue);
+    //     actions.createContact(nameValue, phoneValue, emailValue, addressValue);
+        
+    // }
+
+    //test
+    const { theid } = useParams();
+
+    useEffect(() => {
+        if (theid) {
+            actions.getContact(theid);
+        }else {
+            setNameValue("");
+            setPhoneValue("");
+            setEmailValue("");
+            setAddressValue("");
         }
+    }, [theid]);
+
+    useEffect(() => {
+        if (store.selectedContact && theid) {
+            setNameValue(store.selectedContact.name);
+            setPhoneValue(store.selectedContact.phone);
+            setEmailValue(store.selectedContact.email);
+            setAddressValue(store.selectedContact.address);
+        }
+    }, [store.selectedContact]);
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        if (theid) {
+            actions.updateContact(theid, nameValue, phoneValue, emailValue, addressValue);
+            
+        } else {
+            actions.createContact(nameValue, phoneValue, emailValue, addressValue);
+        }
+        nav("/contacts");
         
     }
+    //test
+
 
     return (
         <div className="m-5">
-            <h2 className="text-center">Add a new Contact</h2>
+            <h2 className="text-center">{props.title}</h2>
             <form onSubmit={submitForm}>
             <div className="mb-3">
                 <label htmlFor="name" className="form-label">Full Name</label>
@@ -49,4 +83,4 @@ const AddContactForm = () => {
     );
 }
 
-export default AddContactForm;
+export default ContactForm;

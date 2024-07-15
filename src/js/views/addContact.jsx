@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import AddContactForm from "../component/addContactForm.jsx";
+import ContactForm from "../component/ContactForm.jsx";
 
 import "../../styles/demo.css";
 
@@ -10,7 +10,7 @@ export const AddContact = () => {
 		<div className="container">
 			
 			
-			<AddContactForm/>
+			<ContactForm title="Add new contact"/>
 
 			
 			

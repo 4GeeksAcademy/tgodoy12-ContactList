@@ -1,7 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			contacts: []
+			contacts: [],
+			selectedContact: {}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -42,6 +43,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			
 			createContact: (name, phone, email, address) => {
+				const store = getStore();
 				fetch('https://playground.4geeks.com/contact/agendas/tgodoy/contacts', 
 					{
 						method: "POST",
@@ -60,13 +62,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log(response);
 						if(response.status === 201) {
 							return response.json();
-							
-
 						}
 					})
 					.then((data) => {
 						if(data) {
-							setStore({ contacts: data.contacts })
+							setStore({ contacts: [...store.contacts, data] })
 							console.log(data)
 							
 						}
@@ -88,6 +88,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.catch((error) => console.log(error))
 			},
 			updateContact: (contactId, name, phone, email, address) => {
+				const store = getStore();
 				fetch(`https://playground.4geeks.com/contact/agendas/tgodoy/contacts/${contactId}`, {
 					method: "PUT",
 					body: JSON.stringify({
@@ -102,12 +103,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => {
 					if(response.status === 200) {
-						setStore({ contacts: data.contacts });
+						return response.json();
+					}
+				})
+				.then((data) => {
+					if(data) {
+
+						const updatedArray = store.contacts.map((item) => {
+							// console.log(item.id +" " + contactId)
+							if(item.id == contactId) {
+								return data;
+							}
+							return item;
+						})
+
+						
+						console.log(store.selectedContact);
+						setStore({ contacts: updatedArray });
 						console.log(data);
 					}
 				})
 				.catch((error) => console.log(error));
-			}
+			},
+			getContact: (contactId) => {
+                const store = getStore();
+                const contact = store.contacts.find(contact => contact.id === parseInt(contactId));
+                setStore({ selectedContact: contact });
+            }
 
 
 			
